@@ -71,6 +71,150 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-nginx" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/myInfo/2021/05/30/nginx/" class="article-date">
+  <time class="dt-published" datetime="2021-05-30T09:49:52.000Z" itemprop="datePublished">2021-05-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/myInfo/2021/05/30/nginx/">nginx</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h1><h2 id="1、nginx-简介"><a href="#1、nginx-简介" class="headerlink" title="1、nginx 简介"></a>1、nginx 简介</h2><ul>
+<li>是什么？<ul>
+<li>一个高性能的 web 服务器，开源免费</li>
+</ul>
+</li>
+<li>作用：<ul>
+<li>静态资源服务器</li>
+<li>反向代理</li>
+<li>负载均衡</li>
+<li>Gzip 压缩</li>
+</ul>
+</li>
+</ul>
+<h2 id="2、正向代理和反向代理"><a href="#2、正向代理和反向代理" class="headerlink" title="2、正向代理和反向代理"></a>2、正向代理和反向代理</h2><ul>
+<li>正向代理：隐藏客户端，由代理服务器接收所有客户端的请求，在发送给服务器。服务器并不知道请求是从哪个客户端发送的<ul>
+<li>如：翻墙工具</li>
+</ul>
+</li>
+<li>反向代理：隐藏服务器，由代理服务器将所有服务器集合在一起，客户端发送请求时并不知道请求哪个服务器，只访问代理服务器，由代理服务器将服务器资源取出然后响应给客户端。<ul>
+<li>如：解决跨域</li>
+</ul>
+</li>
+</ul>
+<h2 id="3、nginx-常用指令"><a href="#3、nginx-常用指令" class="headerlink" title="3、nginx 常用指令"></a>3、nginx 常用指令</h2><ul>
+<li>查看 Nginx 的版本号：nginx -V</li>
+<li>启动 Nginx：nginx</li>
+<li>快速停止或关闭 Nginx：nginx -s stop</li>
+<li>正常停止或关闭 Nginx：nginx -s quit</li>
+<li>配置文件修改重装载命令：nginx -s reload<ul>
+<li>注意：以上指令都需要来到 nginx 目录下</li>
+</ul>
+</li>
+</ul>
+<h2 id="4、静态资源服务器"><a href="#4、静态资源服务器" class="headerlink" title="4、静态资源服务器"></a>4、静态资源服务器</h2><ul>
+<li>作用：部署任意静态资源<ul>
+<li>例如：博客、网站等</li>
+</ul>
+</li>
+<li>实战：部署前端打包生成的文件（前端网站）</li>
+<li>nginx 配置</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>; <span class="comment"># nginx 开启的服务器端口号</span></span><br><span class="line">  <span class="attribute">server_name</span> localhost; <span class="comment"># nginx 开启的服务器域名</span></span><br><span class="line">  <span class="comment"># 所以nginx服务器访问地址就是 http://localhost 或 http://localhost:80</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 处理访问 nginx 服务器的 / 的请求</span></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span> 本地磁盘打包生成的dist文件夹路径; <span class="comment"># 实际访问的地址是本地磁盘打包生成的dist文件夹路径</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5、反向代理"><a href="#5、反向代理" class="headerlink" title="5、反向代理"></a>5、反向代理</h2><ul>
+<li><p>作用：利用反向代理解决跨域问题。</p>
+</li>
+<li><p>实战：解决项目上线时的跨域问题</p>
+</li>
+<li><p>nginx 配置</p>
+</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">server_name</span> localhost;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span> 本地磁盘打包生成的dist文件夹路径;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 处理访问 nginx 服务器的 /prod-api 开头的请求, 转发到目标服务器去</span></span><br><span class="line">  <span class="attribute">location</span> /prod-api &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://182.92.128.115/; <span class="comment"># 转发的目标服务器地址</span></span><br><span class="line">      <span class="attribute">rewrite</span><span class="regexp"> ^/prod-api/(.*)</span> /<span class="variable">$1</span> <span class="literal">break</span>; <span class="comment"># 重写路径 以^/prod-api/xxx开头的重写为/xxx</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6、动静分离"><a href="#6、动静分离" class="headerlink" title="6、动静分离"></a>6、动静分离</h2><ul>
+<li><p>概念：把动态请求和静态请求分开，不是讲动态页面和静态页面物理分离，可以理解为 Nginx 处理静态页面，Tomcat 处理动态页面。</p>
+<ul>
+<li>例如：访问 html/js/css 这种打包生成的静态资源由 Nginx 服务器处理，如果请求 sku / spu 等动态数据由 Tomcat 服务器处理</li>
+</ul>
+</li>
+<li><p>实际上已经配置好了，前面我们配置完成后就是动静分离了~</p>
+</li>
+<li><p>nginx 配置</p>
+</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">  <span class="attribute">server_name</span> localhost;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 静态资源访问地址</span></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span> 本地磁盘打包生成的dist文件夹路径;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 动态资源的访问地址</span></span><br><span class="line">  <span class="attribute">location</span> /prod-api &#123;</span><br><span class="line">      <span class="attribute">proxy_pass</span> http://182.92.128.115/;</span><br><span class="line">      <span class="attribute">rewrite</span><span class="regexp"> ^/prod-api/(.*)</span> /<span class="variable">$1</span> <span class="literal">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="7、Gzip-压缩"><a href="#7、Gzip-压缩" class="headerlink" title="7、Gzip 压缩"></a>7、Gzip 压缩</h1><ul>
+<li><p>作用：提高传输效率，节约带宽</p>
+</li>
+<li><p>nginx 配置</p>
+</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="comment"># 开启gzip压缩</span></span><br><span class="line">  <span class="attribute">gzip</span>  <span class="literal">on</span>;</span><br><span class="line">  <span class="comment"># 限制最小压缩，小于1字节文件不会压缩</span></span><br><span class="line">  <span class="attribute">gzip_min_length</span> <span class="number">1</span>;</span><br><span class="line">  <span class="comment"># 定义压缩的级别（压缩比，文件越大，压缩越多，但是cpu使用会越多）</span></span><br><span class="line">  <span class="attribute">gzip_comp_level</span> <span class="number">3</span>;</span><br><span class="line">  <span class="comment"># 定义压缩文件的类型</span></span><br><span class="line">  <span class="attribute">gzip_types</span> text/plain application/javascript application/json text/css text/javascript image/jpg image/jpeg image/gif image/png;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment"># ...后面配置省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="8、负载均衡"><a href="#8、负载均衡" class="headerlink" title="8、负载均衡"></a>8、负载均衡</h1><ul>
+<li><p>概念：nginx 接收到客户端请求，转发到不同的服务器去处理</p>
+</li>
+<li><p>基本使用</p>
+</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="comment"># 定义服务器均衡服务，名称为guigu</span></span><br><span class="line">  <span class="attribute">upstream</span> guigu &#123;</span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">81</span>; <span class="comment"># 服务器1</span></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">82</span>; <span class="comment"># 服务器2</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># ...后面配置省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Nginx 负载均衡调度算法</li>
+</ul>
+<h2 id="8-1-轮询（默认）"><a href="#8-1-轮询（默认）" class="headerlink" title="8.1 轮询（默认）"></a>8.1 轮询（默认）</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="attribute">upstream</span> guigu &#123;</span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">81</span>; <span class="comment"># 服务器1</span></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">82</span>; <span class="comment"># 服务器2</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># ...后面配置省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>轮询模式默认服务器权重都是 1，请求时：12121212121212</li>
+</ul>
+<h2 id="8-2-加权轮询（weight）"><a href="#8-2-加权轮询（weight）" class="headerlink" title="8.2. 加权轮询（weight）"></a>8.2. 加权轮询（weight）</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="attribute">upstream</span> guigu &#123;</span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">81</span> weight=<span class="number">1</span>; <span class="comment"># 服务器1</span></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">82</span> weight=<span class="number">3</span>; <span class="comment"># 服务器2</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># ...后面配置省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>请求时：122212221222</li>
+</ul>
+<h2 id="8-3-ip-hash（会话保持）"><a href="#8-3-ip-hash（会话保持）" class="headerlink" title="8.3. ip_hash（会话保持）"></a>8.3. ip_hash（会话保持）</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="attribute">upstream</span> guigu &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">81</span>; <span class="comment"># 服务器1</span></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">82</span>; <span class="comment"># 服务器2</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># ...后面配置省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>让相同的客户端 ip 请求相同的服务器</li>
+</ul>
+<h2 id="8-4-fair（动态调度算法）"><a href="#8-4-fair（动态调度算法）" class="headerlink" title="8.4. fair（动态调度算法）"></a>8.4. fair（动态调度算法）</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="attribute">upstream</span> guigu &#123;</span><br><span class="line">    fair;</span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">81</span>; <span class="comment"># 服务器1</span></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">82</span>; <span class="comment"># 服务器2</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># ...后面配置省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据后端节点服务器的响应时间来分配请求，响应时间短的优先分配</li>
+<li>注意：这是更加智能的调度算法，但 Nginx 本身不支持 fair 调度算法。如果需要使用 fair 调度，必须下载 Nginx 相关模块 upstream_fair</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://ming-yu-lu.github.io/myInfo/2021/05/30/nginx/" data-id="ckpb067d90000l4so1rg821cs" data-title="nginx" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-webpack" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/myInfo/2021/05/26/webpack/" class="article-date">
@@ -85,7 +229,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/myInfo/2021/05/26/webpack/">webpack</a>
+      <a class="p-name article-title" href="/myInfo/2021/05/26/webpack/">webpack4</a>
     </h1>
   
 
@@ -134,8 +278,8 @@
 </li>
 <li><p>安装webpack</p>
 <ul>
-<li>npm install <a href="mailto:&#x77;&#x65;&#98;&#112;&#x61;&#99;&#x6b;&#64;&#52;&#46;&#52;&#52;&#46;&#x32;">&#x77;&#x65;&#98;&#112;&#x61;&#99;&#x6b;&#64;&#52;&#46;&#52;&#52;&#46;&#x32;</a> webpack-cli@4.0.0 -g  //全局安装,作为指令使用</li>
-<li>npm install <a href="mailto:&#x77;&#x65;&#x62;&#x70;&#x61;&#99;&#x6b;&#x40;&#x34;&#x2e;&#52;&#52;&#x2e;&#50;">&#x77;&#x65;&#x62;&#x70;&#x61;&#99;&#x6b;&#x40;&#x34;&#x2e;&#52;&#52;&#x2e;&#50;</a>  <a href="mailto:&#119;&#x65;&#98;&#x70;&#x61;&#x63;&#107;&#45;&#x63;&#108;&#105;&#x40;&#52;&#46;&#48;&#x2e;&#x30;">&#119;&#x65;&#98;&#x70;&#x61;&#x63;&#107;&#45;&#x63;&#108;&#105;&#x40;&#52;&#46;&#48;&#x2e;&#x30;</a>  -D //本地安装,作为本地依赖使用</li>
+<li>npm install <a href="mailto:&#x77;&#101;&#98;&#112;&#97;&#99;&#x6b;&#x40;&#52;&#46;&#52;&#x34;&#46;&#x32;">&#x77;&#101;&#98;&#112;&#97;&#99;&#x6b;&#x40;&#52;&#46;&#52;&#x34;&#46;&#x32;</a> webpack-cli@4.0.0 -g  //全局安装,作为指令使用</li>
+<li>npm install <a href="mailto:&#x77;&#101;&#x62;&#112;&#97;&#x63;&#x6b;&#x40;&#52;&#x2e;&#x34;&#52;&#46;&#50;">&#x77;&#101;&#x62;&#112;&#97;&#x63;&#x6b;&#x40;&#52;&#x2e;&#x34;&#52;&#46;&#50;</a>  <a href="mailto:&#x77;&#x65;&#x62;&#x70;&#97;&#99;&#107;&#45;&#x63;&#x6c;&#105;&#x40;&#x34;&#x2e;&#x30;&#46;&#48;">&#x77;&#x65;&#x62;&#x70;&#97;&#99;&#107;&#45;&#x63;&#x6c;&#105;&#x40;&#x34;&#x2e;&#x30;&#46;&#48;</a>  -D //本地安装,作为本地依赖使用</li>
 </ul>
 </li>
 </ul>
@@ -451,7 +595,7 @@
 <h3 id="18、添加css兼容"><a href="#18、添加css兼容" class="headerlink" title="18、添加css兼容"></a>18、添加css兼容</h3><ul>
 <li><p>安装loader</p>
 <ul>
-<li>npm install <a href="mailto:&#112;&#x6f;&#115;&#116;&#x63;&#115;&#115;&#x2d;&#x6c;&#111;&#97;&#x64;&#x65;&#x72;&#x40;&#x33;&#x2e;&#x30;&#x2e;&#x30;">&#112;&#x6f;&#115;&#116;&#x63;&#115;&#115;&#x2d;&#x6c;&#111;&#97;&#x64;&#x65;&#x72;&#x40;&#x33;&#x2e;&#x30;&#x2e;&#x30;</a> postcss-flexbugs-fixes postcss-preset-env  postcss-normalize autoprefixer –save-dev </li>
+<li>npm install <a href="mailto:&#x70;&#x6f;&#x73;&#x74;&#99;&#115;&#115;&#x2d;&#108;&#111;&#97;&#100;&#x65;&#x72;&#x40;&#51;&#x2e;&#48;&#46;&#x30;">&#x70;&#x6f;&#x73;&#x74;&#99;&#115;&#115;&#x2d;&#108;&#111;&#97;&#100;&#x65;&#x72;&#x40;&#51;&#x2e;&#48;&#46;&#x30;</a> postcss-flexbugs-fixes postcss-preset-env  postcss-normalize autoprefixer –save-dev </li>
 <li>postcss-loader 解决css兼容问题.注意要使用@3.0.0版本的包</li>
 <li>postcss-flexbugs-fixes 处理程序员代码写的不对的代码,</li>
 <li>postcss-preset-env postcss执行时需要的环境</li>
@@ -508,7 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://ming-yu-lu.github.io/myInfo/2021/05/26/webpack/" data-id="ckp59x3oy0000dosoh34jhih9" data-title="webpack" class="article-share-link">Share</a>
+      <a data-url="https://ming-yu-lu.github.io/myInfo/2021/05/26/webpack/" data-id="ckp59x3oy0000dosoh34jhih9" data-title="webpack4" class="article-share-link">Share</a>
       
       
       
@@ -806,7 +950,11 @@
       <ul>
         
           <li>
-            <a href="/myInfo/2021/05/26/webpack/">webpack</a>
+            <a href="/myInfo/2021/05/30/nginx/">nginx</a>
+          </li>
+        
+          <li>
+            <a href="/myInfo/2021/05/26/webpack/">webpack4</a>
           </li>
         
           <li>
